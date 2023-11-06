@@ -12,7 +12,7 @@
     <div>
       <button :disabled="page === 1" @click="page -= 1">Prev</button>
       {{ page }}
-      <button @click="page += 1">Next</button>
+      <button @click="page = +page + 1">Next</button>
     </div>
     <hr />
 
@@ -83,7 +83,7 @@ export default {
     this.loadPosts();
   },
 
-  beforeDestroyed() {
+  beforeUnmount() {
     window.removeEventListener("hashchange", this.syncHash);
   },
 
