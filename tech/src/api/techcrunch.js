@@ -5,7 +5,7 @@ export function getPosts({ page = 1, filters = {} } = {}) {
         per_page: 10,
         ...filters,
     }).forEach(([key, value]) => {
-        if (value !== null) {
+        if (value != null) {
             url.searchParams.append(key, value);
         }
     });

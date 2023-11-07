@@ -3,7 +3,11 @@
     <label
       >Category:
       <select v-model="selectedCategory">
-        <option v-for="category in availableCategories" :value="category.id">
+        <option
+          v-for="category in availableCategories"
+          :value="category.id"
+          :key="category.name"
+        >
           {{ category.name }}
         </option>
       </select>
@@ -103,7 +107,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
+/* h3 {
   margin: 40px 0 0;
 }
 ul {
@@ -116,5 +120,5 @@ li {
 }
 a {
   color: #42b983;
-}
+} */
 </style>

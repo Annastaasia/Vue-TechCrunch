@@ -2,7 +2,7 @@
   <div>
     <label
       >Search:
-      <input v-model.lazy="search" />
+      <input v-model="filters.search" />
     </label>
     <hr />
     <div>
@@ -11,10 +11,9 @@
       <button @click="page = +page + 1">Next</button>
     </div>
     <hr />
-
     <ul>
-      <li v-for="item in items">
-        <a target="_blank" :href="item.link">{{ item.name }}</a>
+      <li v-for="item in items" :key="item.name">
+        <p>{{ item.name }}</p>
       </li>
     </ul>
   </div>
@@ -22,68 +21,23 @@
 
 <script>
 import { getPlanets } from "../api/swapi";
+import { filterableMixin } from "../components/mixins/filtered.js";
 
 export default {
+  mixins: [filterableMixin],
   data() {
     return {
       items: [],
-      search: "",
-      page: 1,
     };
   },
 
   methods: {
-    async loadPosts() {
+    async loadItems() {
       const { results } = await getPlanets({
         page: this.page,
-        swarch: this.serch,
+        ...this.filters,
       });
       this.items = results;
-    },
-
-    syncHash() {
-      const urlParams = new URLSearchParams(window.location.hash.substring(1));
-      const entries = Object.fromEntries(urlParams.entries());
-      if (entries.page) {
-        this.page = entries.page;
-      }
-      if (entries.search) {
-        this.search = entries.search;
-      }
-    },
-
-    updateHash() {
-      const urlParams = new URLSearchParams();
-      if (this.page !== 1) {
-        urlParams.append("page", this.page);
-      }
-      if (this.search !== "") {
-        urlParams.append("search", this.search);
-      }
-
-      window.location.hash = urlParams.toString();
-    },
-  },
-
-  created() {
-    window.addEventListener("hashchange", this.syncHash);
-    this.syncHash();
-    this.loadPlanets();
-  },
-
-  beforeUnmount() {
-    window.removeEventListener("hashchange", this.syncHash);
-  },
-
-  watch: {
-    page() {
-      this.loadPlanets();
-      this.updateHash();
-    },
-    selectedCategory() {
-      this.page = 1;
-      this.loadPlanets();
-      this.updateHash();
     },
   },
 };
