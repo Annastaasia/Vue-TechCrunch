@@ -40,5 +40,13 @@ export default {
       this.items = results;
     },
   },
+
+  created() {
+    const { page } = useFilterable({
+      loadItems: this.loadItems,
+      filters: this.filters,
+    });
+    this.page = page;
+  },
 };
 </script>

@@ -21,7 +21,7 @@
     <hr />
 
     <ul>
-      <li v-for="item in items">
+      <li v-for="item in items" :key="item.link">
         <a target="_blank" :href="item.link" v-html="item.title.rendered"></a>
       </li>
     </ul>
