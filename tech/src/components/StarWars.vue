@@ -21,10 +21,9 @@
 
 <script>
 import { getPlanets } from "../api/swapi";
-import { filterableMixin } from "../components/mixins/filtered.js";
+import { useFilterable } from "../components/use/filterable";
 
 export default {
-  mixins: [filterableMixin],
   data() {
     return {
       items: [],

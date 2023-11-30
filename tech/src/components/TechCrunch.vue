@@ -29,6 +29,7 @@
 </template>
 <script>
 import { getPosts, getCategories } from "../api/techcrunch";
+import { useFilterable } from "../components/use/filterable";
 
 export default {
   data() {
@@ -81,15 +82,22 @@ export default {
   },
 
   created() {
-    window.addEventListener("hashchange", this.syncHash);
-    this.syncHash();
+    // window.addEventListener("hashchange", this.syncHash);
     this.loadCategories();
-    this.loadPosts();
+
+    const { page, filters } = useFilterable(
+      {
+        loadItems: this.loadItems,
+      },
+      this
+    );
+    this.page = page;
+    this.filters = filters;
   },
 
-  beforeUnmount() {
-    window.removeEventListener("hashchange", this.syncHash);
-  },
+  // beforeUnmount() {
+  //   window.removeEventListener("hashchange", this.syncHash);
+  // },
 
   watch: {
     page() {
