@@ -56,58 +56,29 @@ export default {
         filters: { categories: this.selectedCategory },
       });
     },
-
-    syncHash() {
-      const urlParams = new URLSearchParams(window.location.hash.substring(1));
-      const entries = Object.fromEntries(urlParams.entries());
-      if (entries.page) {
-        this.page = entries.page;
-      }
-      if (entries.category) {
-        this.selectedCategory = entries.category;
-      }
-    },
-
-    updateHash() {
-      const urlParams = new URLSearchParams();
-      if (this.page !== 1) {
-        urlParams.append("page", this.page);
-      }
-      if (this.selectedCategory !== "") {
-        urlParams.append("category", this.selectedCategory);
-      }
-
-      window.location.hash = urlParams.toString();
-    },
   },
 
-  created() {
-    // window.addEventListener("hashchange", this.syncHash);
-    this.loadCategories();
-
+  setup() {
     const { page, filters } = useFilterable(
       {
-        loadItems: this.loadItems,
+        loadItems: getPosts,
       },
       this
     );
-    this.page = page;
-    this.filters = filters;
+    return { page, filters };
   },
 
-  // beforeUnmount() {
-  //   window.removeEventListener("hashchange", this.syncHash);
-  // },
+  created() {
+    this.loadCategories();
+  },
 
   watch: {
     page() {
       this.loadPosts();
-      this.updateHash();
     },
     selectedCategory() {
       this.page = 1;
       this.loadPosts();
-      this.updateHash();
     },
   },
 };

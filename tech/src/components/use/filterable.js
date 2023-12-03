@@ -1,4 +1,4 @@
-export function useFilterable({ loadItems, filters }, { $watch }) {
+export function useFilterable({ filters }, { $watch }) {
     const page = 1;
     // const filters = Vue.observable({});
 
